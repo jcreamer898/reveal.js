@@ -39,44 +39,74 @@
 					<h1>Building Apps for BB10</h1>
 					<h3>Using jQuery Mobile, and Backbone.js</h3>
 					<p>
-						<small>Presented by <a href="http://twitter.com/jcreamer898">Jonathan Creamer</a></small>
+						<small>Presented by <a href="http://twitter.com/jcreamer898">@jcreamer898</a></small>
 					</p>
+				</section>
+				
+				<section>
+					<h2>Best Part???</h2>
+					<p>
+						It's all HTML5, JavaScript, and CSS
+					</p>
+				</section>
+				
+				<section>
+					<h2>Which means instead of being like...</h2>
+					<img src="http://replygif.net/i/300" />
+				</section>
+				
+				<section>
+					<h2>You can be all like...</h2>
+					<img src="http://replygif.net/i/722" />
+				</section>
+				
+				<section>
+					<h2>MV*</h2>
+					<ul>
+						<li>MVC, MVVM, MVP... </li>
+						<li>Architectural Pattern</li>
+						<li>Promotes SOC and SRP</li>
+						<li>Makes code testable</li>
+						<li>Organizes code</li>
+						<li>Knockout, Backbone, Ember, Spine...</li>
+					</ul>					
 					
 					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>	
+						Allows you to make changes in one part of the app without breaking another because the code is not tightly coupled. Scalable.
+					</aside>
 				</section>
 				
-				<section data-markdown>
-					<script type="text/template">
-## MV*
-* Promotes SOC
-* Testable
-* Organized
-* MVC, MVVM, MVP ...
-* Knockout, Backbone, Ember, Spine...
-					</script>
+				
+				
+				<section>
+					<h2>Backbone.js</h2>
+
+					<ul>
+						<li>An MVCish framework with many great features for building applications.</li>
+						<li>Models and collections for data</li>
+						<li>Views for DOM elements</li>
+						<li>Routers for state management</li>
+					</ul>
+
+					<aside class="notes">
+						Used to be called "MVC", but not really as Derick Bailey says.
+					</aside>
 				</section>
 				
-				<section data-markdown>
-					<script type="text/template">
-## Backbone.js
-* An MV* framework with many great features for building applications.
-* Models and collections for data
-* Views for DOM elements
-* Routers for state management
-					</script>
-				</section>
-				
-				<section data-markdown>
-					<script type="text/template">
-## Backbone.Model
-* Represents data
-* `get` and `set` attributes
-* Rest functions, `fetch`, `save`, `destroy`
-* Validation
-* Manages changes
-					</script>
+				<section>
+					<h2>Backbone.Model</h2>
+
+					<ul>
+						<li>Represents data</li>
+						<li><code>get</code> and <code>set</code> attributes</li>
+						<li>Rest functions, <code>fetch</code>, <code>save</code>, <code>destroy</code></li>
+						<li>Validation</li>
+						<li>Manages changes</li>
+					</ul>
+					
+					<aside class="notes">
+						User, Car, etc.
+					</aside>
 				</section>
 				
 				<section data-markdown>
@@ -92,18 +122,43 @@ var jim = new Contact({
     name: "Jim Halpert",
     position: "sales"
 });
+jim.get( "position" );
 jim.set( "married", true );
 jim.fetch();
 					</code></pre>
+					<aside class="notes">
+						Everything in Backbone is created with extend. Extend creates a new constructor function by passing in functions. Then 
+						the things you extended can also be extended.
+					</aside>
 				</section>
 				
-				<section data-markdown>
-					<script type="text/template">
-## Backbone.Collection
-* "strongly typed" collection of models.
-* Has a `fetch`
-* Underscore.js extension methods.
-					</script>
+				<section>
+					<h2>Backbone.Events</h2>
+					<ul>
+						<li>Mixin so certain objects can listen for and emit events</li>
+						<li>On, Off, Trigger</li>
+					</ul>
+					
+					<pre><code contenteditable>
+jim.on( "change:position", function() {
+	console.log( "w00t! Jim got promoted" );
+});	
+jim.set( "position", "manager" ); // calls trigger
+					</code></pre>
+				</section>
+				
+				<section>
+					<h2>Backbone.Collection</h2>
+
+					<ul>
+						<li>A collection of models specified by <code>model</code></li>
+						<li>Has a <code>fetch</code></li>
+						<li>Underscore.js extension methods</li>
+					</ul>
+					
+					<aside class="notes">
+						Each, filter, map, reduce, all, any, shuffle, etc.
+					</aside>
 				</section>
 
 				
@@ -116,19 +171,25 @@ var Contacts = Backbone.Collection.extend({
 });
 var sales = new Contacts();
 sales.add( jim );
+
+sales.each(function( model ) {
+	console.log( model.get( "name" ) );
+});
 					</code></pre>
 				</section>
 				
-				<section data-markdown>
-					<script type="text/template">
-## Backbone.View
-* Groups DOM elements
-* Helps divide up UI
-* Delegates events
-* Render convention
-					</script>
-				</section>
+				<section>
+					<h2>Backbone.View</h2>
 
+					<ul>
+						<li>Groups DOM elements</li>
+						<li>Helps divide up UI</li>
+						<li>Delegates events</li>
+						<li>Render convention</li>
+					</ul>
+
+				</section>
+				
 				<section>
 					<h2>Backbone.View</h2>
 					<pre><code contenteditable>
@@ -155,17 +216,63 @@ var home = new Home({
     collection: new Contacts();
 });
 					</code></pre>
+					
+				</section>
+				
+				<section>
+					<h2>Backbone.Router</h2>
+
+					<ul>
+						<li>Responds to changes in the url</li>
+						<li>Backbone.history; can use pushstate</li>
+						<li>Fires functions based on routes.</li>
+					</ul>
+					
+				</section>
+				
+				<section>
+					<h2>Backbone.Router</h2>
+					<pre><code contenteditable>
+var Router = Backbone.Router.extend({
+	routes: {
+		"": "home",
+		"create": "create",
+		"edit/:id": "edit
+	},
+	home: function() {},
+	create: function() {},
+	edit: function( id ) {}
+});					
+					</code></pre>		
+
+					<aside class="notes">
+						To learn more, backbonejs.org and the annotated source.
+					</aside>					
 				</section>
 				
 				<section data-markdown>
-					<script type="text/template">
-## App
-* Index.html manages dependencies
-* main.js and the App object
-* Disable jQuery mobile's routing system
-* Manually call $.mobile.changePage
-* Use views to render jQuery Mobile markup
-					</script>
+					<h2>App</h2>
+
+					<ul>
+						<li>Backbone.js renders the markup</li>
+						<li>Index.html manages dependencies</li>
+						<li>main.js and the App object</li>
+						<li>Disable jQuery mobile's routing system</li>
+						<li>Manually call $.mobile.changePage</li>
+						<li>Use views to render jQuery Mobile markup</li>
+					</ul>
+					
+					<aside class="notes">
+						<h1>Show app running first.</h1>
+						<ul>
+							<li>index.html, jqmconfig.js, main.js, routers/home.js, rendor.js, views/home/index.js</li>
+							<li>Show generated source code</li>
+							<li>Gives direct control over how things render</li>
+							<li>Show templates if there's time</li>
+							<li>Mockjax, mockjson, anvil?</li>
+							<li>Demo app will be available, boilerplate, white paper.</li>
+						</ul>
+					</aside>
 				</section>
 				
 			</div>
